@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * Plugin Name: Bonnier Campaign Teaser Manager Plugin
+ * Version: 0.0.1
+ * Plugin URI: https://github.com/BenjaminMedia/wp-bonnier-ctm
+ * Description: This plugin allows you to integrate your site with the Campaign Teaser Manager
+ * Author: Bonnier
+ * License: GPL v3
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+function registerBonnierCTM()
+{
+    return \Bonnier\WP\CTM\CampaignTeaserManager::class;
+}
+
+add_action('plugins_loaded', 'registerBonnierCTM');

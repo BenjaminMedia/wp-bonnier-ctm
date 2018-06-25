@@ -1,0 +1,20 @@
+{
+    "name": "bonnier/wp-bonnier-ctm",
+    "description": "This plugin allows you to integrate your site with Cthe Campaign Teaser Manager",
+    "type": "wordpress-plugin",
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bonnier Publications",
+            "email": "interactive@bonnier.dk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bonnier\\WP\\CTM\\": "src/"
+        }
+    }
+}
