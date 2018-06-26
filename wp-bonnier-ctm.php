@@ -13,8 +13,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once __DIR__ . '/vendor/autoload.php';
-
 function registerBonnierCTM()
 {
     return \Bonnier\WP\CTM\CampaignTeaserManager::class;

@@ -2,32 +2,25 @@
 
 namespace Bonnier\WP\CTM;
 
+use Bonnier\WP\CTM\Contracts\TeaserRepositoryContract;
+use Bonnier\WP\CTM\Repositories\CampaignTeaserManagerRepository;
+use Bonnier\WP\CTM\Services\TeaserService;
+use GuzzleHttp\Client;
+
 class CampaignTeaserManager
 {
-    /** Text domain for translators */
-    const TEXT_DOMAIN = 'bonnier-ctm';
-
     private static $instance;
-
-    private $plugin_dir;
-    private $plugin_url;
-
-    public function __construct()
-    {
-        $this->plugin_dir = plugin_dir_path(__DIR__);
-        $this->plugin_url = plugin_dir_url(__DIR__);
-
-        load_plugin_textdomain(
-            self::TEXT_DOMAIN,
-            false,
-            dirname(plugin_basename(__DIR__)) . '/languages'
-        );
-    }
+    
+    private $teaserRepository;
+    private $teaserService;
 
     public static function instance()
     {
         if (!self::$instance) {
             self::$instance = new self;
+
+            self::$instance->setTeaserRepository();
+            self::$instance->setTeaserService();
 
             do_action('bonnier_ctm_loaded');
         }
@@ -35,14 +28,34 @@ class CampaignTeaserManager
         return self::$instance;
     }
 
-    public function getPluginUrl()
+    public function setTeaserRepository(?TeaserRepositoryContract $repo = null)
     {
-        return $this->plugin_url;
+        if (!$repo) {
+            $client = new Client([
+                'base_uri' => env('CAMPAIGN_TEASER_MANAGER_HOST') ?? null,
+            ]);
+            $repo = new CampaignTeaserManagerRepository(
+                $client,
+                pll_current_language(),
+                env('BRANDCODE')
+            );
+        }
+
+        $this->teaserRepository = $repo;
     }
 
-    public function getPluginDir()
+    public function getTeaserRepository(): TeaserRepositoryContract
     {
-        return $this->plugin_dir;
+        return $this->teaserRepository;
     }
 
+    public function setTeaserService()
+    {
+        $this->teaserService = new TeaserService($this->teaserRepository);
+    }
+
+    public function getTeaserService(): TeaserService
+    {
+        return $this->teaserService;
+    }
 }
