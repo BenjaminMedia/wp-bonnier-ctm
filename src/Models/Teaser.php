@@ -4,7 +4,7 @@ namespace Bonnier\WP\CTM\Models;
 
 use Bonnier\WP\CTM\Contracts\TeaserContract;
 
-class Teaser implements TeaserContract
+class Teaser implements TeaserContract, JsonSerializable
 {
     protected $teaser;
 
@@ -75,5 +75,24 @@ class Teaser implements TeaserContract
     public function getLink(): ?string
     {
         return $this->teaser->campaign_link ?? null;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'body' => $this->getBody(),
+            'image' => $this->getImage(),
+            'video' => $this->getVideo(),
+            'link' => $this->getLink()
+        ];
     }
 }
