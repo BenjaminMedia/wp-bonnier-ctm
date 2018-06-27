@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: Bonnier Campaign Teaser Manager Plugin
- * Version: 1.0.1
+ * Version: 1.0.2
  * Plugin URI: https://github.com/BenjaminMedia/wp-bonnier-ctm
  * Description: This plugin allows you to integrate your site with the Campaign Teaser Manager
  * Author: Bonnier

@@ -2,6 +2,7 @@
 
 namespace Bonnier\WP\CTM\Models;
 
+use JsonSerializable;
 use Bonnier\WP\CTM\Contracts\TeaserContract;
 
 class Teaser implements TeaserContract, JsonSerializable
