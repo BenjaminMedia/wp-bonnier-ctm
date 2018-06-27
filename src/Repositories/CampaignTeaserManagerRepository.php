@@ -14,6 +14,12 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
     protected $locale;
     protected $brandCode;
 
+    /**
+     * CampaignTeaserManagerRepository constructor.
+     * @param Client $client
+     * @param string $locale
+     * @param string $brandCode
+     */
     public function __construct(Client $client, string $locale, string $brandCode)
     {
         $this->client = $client;
@@ -21,6 +27,10 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
         $this->brandCode = $brandCode;
     }
 
+    /**
+     * @param string $locale
+     * @return TeaserRepositoryContract
+     */
     public function setLocale(string $locale): TeaserRepositoryContract
     {
         $this->locale = $locale;
@@ -28,6 +38,10 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
         return $this;
     }
 
+    /**
+     * @param string $brandCode
+     * @return TeaserRepositoryContract
+     */
     public function setBrandCode(string $brandCode): TeaserRepositoryContract
     {
         $this->brandCode = $brandCode;
@@ -35,16 +49,25 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getLocale(): string
     {
         return $this->locale;
     }
 
+    /**
+     * @return string
+     */
     public function getBrandCode(): string
     {
         return $this->brandCode;
     }
 
+    /**
+     * @return Collection|null
+     */
     public function getTeasers(): ?Collection
     {
         if ($response = $this->get('api/teasers')) {
@@ -53,6 +76,10 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
         return null;
     }
 
+    /**
+     * @param string $category Category Contenthub ID
+     * @return Collection|null
+     */
     public function getTeasersByCategory(string $category): ?Collection
     {
         if ($response = $this->get('api/teasers', ['category' => $category])) {
@@ -61,6 +88,10 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
         return null;
     }
 
+    /**
+     * @param Collection $tags Collection of tag Contenthub IDs
+     * @return Collection|null
+     */
     public function getTeasersByTags(Collection $tags): ?Collection
     {
         if ($response = $this->get('api/teasers', ['tags' => $tags])) {
@@ -69,6 +100,11 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
         return null;
     }
 
+    /**
+     * @param string $category Category Contenthub ID
+     * @param Collection $tags Collection of tag Contenthub IDs
+     * @return Collection|null
+     */
     public function getTeasersByCategoryAndTags(string $category, Collection $tags): ?Collection
     {
         if ($response = $this->get('api/teasers', [
@@ -80,6 +116,11 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
         return null;
     }
 
+    /**
+     * @param string $url
+     * @param array $query
+     * @return array|mixed|null|object
+     */
     protected function get(string $url, array $query = [])
     {
         $query['locale'] = $this->locale;

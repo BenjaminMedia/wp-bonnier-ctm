@@ -2,7 +2,6 @@
 
 namespace Tests\Bonnier\WP\CTM;
 
-
 use Bonnier\WP\CTM\Models\Teaser;
 use Faker\Factory;
 use PHPUnit\Framework\TestCase;

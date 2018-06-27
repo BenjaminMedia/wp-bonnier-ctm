@@ -6,16 +6,14 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Tests\Bonnier\WP\CTM\Mocks\MockTeaserRepository;
 
 class Factory
 {
-    public static function getTeaserRepository(): MockTeaserRepository
-    {
-        $client = new Client();
-        return new MockTeaserRepository($client, '', '');
-    }
-
+    /**
+     * @param array $responses Array of Guzzle Response objects
+     * @param int $queueSize The size of the mocked queue
+     * @return Client
+     */
     public static function getGuzzleClient(array $responses = [], $queueSize = 1): Client
     {
         if (empty($responses)) {
@@ -29,6 +27,10 @@ class Factory
         return new Client(['handler' => $handler]);
     }
 
+    /**
+     * @param int $count Amount of teasers to generate
+     * @return array
+     */
     public static function getTeaserDataArray($count = 1)
     {
         $faker = \Faker\Factory::create();
@@ -46,6 +48,9 @@ class Factory
         return $data;
     }
 
+    /**
+     * @return Response
+     */
     public static function getValidCTMResponse(): Response
     {
         $data = [
@@ -65,6 +70,9 @@ class Factory
         return new Response(200, [], json_encode($data));
     }
 
+    /**
+     * @return Response
+     */
     public static function getEmptyCTMResponse(): Response
     {
         $data = [
@@ -83,6 +91,9 @@ class Factory
         return new Response(200, [], json_encode($data));
     }
 
+    /**
+     * @return Response
+     */
     public static function getInvalidCTMResponse(): Response
     {
         $data = [
