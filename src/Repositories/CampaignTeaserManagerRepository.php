@@ -48,7 +48,7 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
     public function getTeasers(): ?Collection
     {
         if ($response = $this->get('api/teasers')) {
-            return new Collection($response['data']);
+            return new Collection($response->data);
         }
         return null;
     }
@@ -56,7 +56,7 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
     public function getTeasersByCategory(string $category): ?Collection
     {
         if ($response = $this->get('api/teasers', ['category' => $category])) {
-            return new Collection($response['data']);
+            return new Collection($response->data);
         }
         return null;
     }
@@ -64,7 +64,7 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
     public function getTeasersByTags(Collection $tags): ?Collection
     {
         if ($response = $this->get('api/teasers', ['tags' => $tags])) {
-            return new Collection($response['data']);
+            return new Collection($response->data);
         }
         return null;
     }
@@ -75,7 +75,7 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
             'category' => $category,
             'tags' => $tags
         ])) {
-            return new Collection($response['data']);
+            return new Collection($response->data);
         }
         return null;
     }
@@ -92,7 +92,7 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
                     'Accept' => 'application/json'
                 ],
             ]);
-            return json_decode($response->getBody()->getContents(), JSON_OBJECT_AS_ARRAY);
+            return json_decode($response->getBody()->getContents());
         } catch (RequestException $e) {
             return null;
         }

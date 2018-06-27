@@ -9,56 +9,56 @@ use PHPUnit\Framework\TestCase;
 
 class TeaserTest extends TestCase
 {
-    public function testCorrectlyConvertsArray()
+    public function testCorrectlyConvertsObject()
     {
         $faker = Factory::create();
-        $data = [
-            'id' => $faker->randomDigitNotNull,
-            'title' => $faker->sentence(3),
-            'body' => $faker->text(),
-            'image' => $faker->imageUrl(),
-            'video' => $faker->url,
-            'campaign_link' => $faker->url,
-        ];
+        $data = new \stdClass();
+        $data->id = $faker->randomDigitNotNull;
+        $data->title = $faker->sentence(3);
+        $data->body = $faker->text();
+        $data->image = $faker->imageUrl();
+        $data->video = $faker->url;
+        $data->campaign_link = $faker->url;
 
         $teaser = new Teaser($data);
 
-        $this->assertEquals($data['id'], $teaser->getId());
-        $this->assertEquals($data['title'], $teaser->getTitle());
-        $this->assertEquals($data['body'], $teaser->getBody());
-        $this->assertEquals($data['image'], $teaser->getImage());
-        $this->assertEquals($data['video'], $teaser->getVideo());
-        $this->assertEquals($data['campaign_link'], $teaser->getLink());
+        $this->assertEquals($data->id, $teaser->getId());
+        $this->assertEquals($data->title, $teaser->getTitle());
+        $this->assertEquals($data->body, $teaser->getBody());
+        $this->assertEquals($data->image, $teaser->getImage());
+        $this->assertEquals($data->video, $teaser->getVideo());
+        $this->assertEquals($data->campaign_link, $teaser->getLink());
     }
 
     public function testCanHandleNullValues()
     {
-        $teaser = new Teaser([
-            'id' => null,
-            'title' => null,
-            'body' => null,
-            'image' => null,
-            'video' => null,
-            'campaign_link' => null,
-        ]);
+        $data = new \stdClass();
+        $data->id = null;
+        $data->title = null;
+        $data->body = null;
+        $data->image = null;
+        $data->video = null;
+        $data->campaign_link = null;
 
-        $this->assertEquals(0, $teaser->getId());
-        $this->assertEquals('', $teaser->getTitle());
-        $this->assertEquals('', $teaser->getBody());
-        $this->assertEquals('', $teaser->getImage());
-        $this->assertEquals('', $teaser->getVideo());
-        $this->assertEquals('', $teaser->getLink());
+        $teaser = new Teaser($data);
+
+        $this->assertNull($teaser->getId());
+        $this->assertNull($teaser->getTitle());
+        $this->assertNull($teaser->getBody());
+        $this->assertNull($teaser->getImage());
+        $this->assertNull($teaser->getVideo());
+        $this->assertNull($teaser->getLink());
     }
 
-    public function testCanHandleEmptyArray()
+    public function testCanHandleEmptyObject()
     {
-        $teaser = new Teaser([]);
+        $teaser = new Teaser(new \stdClass());
 
-        $this->assertEquals(0, $teaser->getId());
-        $this->assertEquals('', $teaser->getTitle());
-        $this->assertEquals('', $teaser->getBody());
-        $this->assertEquals('', $teaser->getImage());
-        $this->assertEquals('', $teaser->getVideo());
-        $this->assertEquals('', $teaser->getLink());
+        $this->assertNull($teaser->getId());
+        $this->assertNull($teaser->getTitle());
+        $this->assertNull($teaser->getBody());
+        $this->assertNull($teaser->getImage());
+        $this->assertNull($teaser->getVideo());
+        $this->assertNull($teaser->getLink());
     }
 }

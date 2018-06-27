@@ -42,7 +42,7 @@ class TeaserService
         }
 
         if ($response) {
-            return $response->map(function (array $teaser) {
+            return $response->map(function (\stdClass $teaser) {
                 return new Teaser($teaser);
             });
         }
@@ -52,8 +52,7 @@ class TeaserService
 
     private function getCategory(WP_Post $post)
     {
-        if (($term = get_field('category', $post->ID)) && $term instanceof WP_Term)
-        {
+        if (($term = get_category($post->post_category[0] ?? null)) && $term instanceof WP_Term) {
             return $this->getContenthubID($term);
         }
 
@@ -62,7 +61,7 @@ class TeaserService
 
     private function getTags(WP_Post $post)
     {
-        if (($tags = new Collection(get_field('tags', $post->ID))) && $tags->isNotEmpty()) {
+        if (($tags = new Collection(wp_get_post_tags($post->ID))) && $tags->isNotEmpty()) {
             return $tags->map(function (WP_Term $tag) {
                 return $this->getContenthubID($tag);
             })->reject(function ($tag) {
@@ -75,8 +74,6 @@ class TeaserService
 
     private function getContenthubID(WP_Term $term)
     {
-        $meta = get_term_meta($term->term_id);
-
-        return $meta['content_hub_id'][0] ?? null;
+        return get_term_meta($term->term_id, 'content_hub_id', $single = true) ?: null;
     }
 }
