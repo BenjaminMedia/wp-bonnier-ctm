@@ -17,6 +17,7 @@ class TeaserTest extends TestCase
         $data->body = $faker->text();
         $data->image = $faker->imageUrl();
         $data->video = $faker->url;
+        $data->inline = $faker->boolean;
         $data->campaign_link = $faker->url;
 
         $teaser = new Teaser($data);
@@ -26,6 +27,7 @@ class TeaserTest extends TestCase
         $this->assertEquals($data->body, $teaser->getBody());
         $this->assertEquals($data->image, $teaser->getImage());
         $this->assertEquals($data->video, $teaser->getVideo());
+        $this->assertEquals($data->inline, $teaser->isInline());
         $this->assertEquals($data->campaign_link, $teaser->getLink());
     }
 
@@ -37,6 +39,7 @@ class TeaserTest extends TestCase
         $data->body = null;
         $data->image = null;
         $data->video = null;
+        $data->inline = null;
         $data->campaign_link = null;
 
         $teaser = new Teaser($data);
@@ -46,6 +49,7 @@ class TeaserTest extends TestCase
         $this->assertNull($teaser->getBody());
         $this->assertNull($teaser->getImage());
         $this->assertNull($teaser->getVideo());
+        $this->assertFalse($teaser->isInline());
         $this->assertNull($teaser->getLink());
     }
 
@@ -58,6 +62,7 @@ class TeaserTest extends TestCase
         $this->assertNull($teaser->getBody());
         $this->assertNull($teaser->getImage());
         $this->assertNull($teaser->getVideo());
+        $this->assertFalse($teaser->isInline());
         $this->assertNull($teaser->getLink());
     }
 }

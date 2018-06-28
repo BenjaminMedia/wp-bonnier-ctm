@@ -69,6 +69,16 @@ class Teaser implements TeaserContract, JsonSerializable
     }
 
     /**
+     * Display teaser inline
+     *
+     * @return bool
+     */
+    public function isInline(): bool
+    {
+        return boolval($this->teaser->inline ?? null);
+    }
+
+    /**
      * URL to where the teaser needs to link
      *
      * @return null|string
@@ -93,6 +103,7 @@ class Teaser implements TeaserContract, JsonSerializable
             'body' => $this->getBody(),
             'image' => $this->getImage(),
             'video' => $this->getVideo(),
+            'inline' => $this->isInline(),
             'link' => $this->getLink()
         ];
     }

@@ -30,6 +30,11 @@ interface TeaserContract
     public function getVideo(): ?string;
 
     /**
+     * @return bool
+     */
+    public function isInline(): bool;
+
+    /**
      * @return null|string
      */
     public function getLink(): ?string;
