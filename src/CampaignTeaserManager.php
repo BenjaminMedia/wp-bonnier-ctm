@@ -32,12 +32,16 @@ class CampaignTeaserManager
     {
         if (!$repo) {
             $client = new Client([
-                'base_uri' => env('CAMPAIGN_TEASER_MANAGER_HOST') ?? null,
+                'base_uri' => env('CAMPAIGN_TEASER_MANAGER_HOST', null),
             ]);
+            $lang = 'da';
+            if (function_exists('pll_current_language')) {
+                $lang = pll_current_language();
+            }
             $repo = new CampaignTeaserManagerRepository(
                 $client,
-                pll_current_language(),
-                env('BRANDCODE')
+                $lang,
+                env('BRANDCODE', '')
             );
         }
 
