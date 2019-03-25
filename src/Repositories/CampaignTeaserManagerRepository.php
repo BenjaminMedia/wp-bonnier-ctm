@@ -94,7 +94,7 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
      */
     public function getTeasersByTags(Collection $tags): ?Collection
     {
-        if ($response = $this->get('api/teasers', ['tags' => $tags])) {
+        if ($response = $this->get('api/teasers', ['tags' => $tags->toArray()])) {
             return new Collection($response->data);
         }
         return null;
@@ -109,7 +109,7 @@ class CampaignTeaserManagerRepository implements TeaserRepositoryContract
     {
         if ($response = $this->get('api/teasers', [
             'category' => $category,
-            'tags' => $tags
+            'tags' => $tags->toArray()
         ])) {
             return new Collection($response->data);
         }
