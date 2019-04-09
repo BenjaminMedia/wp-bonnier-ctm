@@ -34,6 +34,9 @@ class TeaserService
 
         $category = $this->getCategory($post);
         $tags = $this->getTags($post);
+        if ($defaultTag = $this->getDefaultTag()) {
+            $tags->push($defaultTag);
+        }
 
         if ($category && $tags->isNotEmpty()) {
             $response = $this->teaserRepository->getTeasersByCategoryAndTags($category, $tags);
@@ -90,6 +93,20 @@ class TeaserService
      */
     private function getContenthubID(WP_Term $term)
     {
-        return get_term_meta($term->term_id, 'content_hub_id', $single = true) ?: null;
+        return get_term_meta($term->term_id, 'content_hub_id', true) ?: null;
+    }
+
+    private function getDefaultTag()
+    {
+        if ($tagName = env('CTM_DEFAULT_TAG')) {
+            if ($tag = get_term_by('name', $tagName, 'post_tag')) {
+                if (function_exists('pll_get_term_translations') && $tags = pll_get_term_translations($tag->term_id)) {
+                    if ($tagID = $tags[$this->teaserRepository->getLocale()] ?? null) {
+                        return get_term_meta($tagID, 'content_hub_id', true) ?: null;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }
